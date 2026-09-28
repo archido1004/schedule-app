@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { BottomNav } from "./BottomNav";
+import { TopNav } from "./TopNav";
 
 const NO_CHROME_PREFIXES = ["/login", "/setup"];
 
@@ -15,8 +15,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <div className="flex-1 pb-20">{children}</div>
-      <BottomNav />
+      <TopNav />
+      <div className="flex-1">{children}</div>
     </div>
   );
 }

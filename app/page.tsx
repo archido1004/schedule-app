@@ -53,13 +53,11 @@ export default async function DashboardPage() {
             <Link
               key={s.id}
               href={`/schedule/${s.id}`}
-              className="block rounded-lg bg-white p-4 shadow-sm"
+              className="block rounded-lg border-l-4 border-l-indigo-500 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="flex items-center justify-between">
                 <span className="font-medium">{s.customerName}</span>
-                <span className="text-sm text-neutral-500">
-                  {s.startTime}~{s.endTime}
-                </span>
+                <span className="text-sm text-neutral-500">{s.startTime}</span>
               </div>
               {s.memo && (
                 <p className="mt-1 text-sm text-neutral-500">{s.memo}</p>

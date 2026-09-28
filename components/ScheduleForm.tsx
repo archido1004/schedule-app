@@ -17,17 +17,18 @@ type Schedule = {
 
 export function ScheduleForm({
   schedule,
+  initialDate,
   kakaoChannelUrl,
 }: {
   schedule?: Schedule;
+  initialDate?: string;
   kakaoChannelUrl: string | null;
 }) {
   const router = useRouter();
   const isEdit = Boolean(schedule);
 
-  const [date, setDate] = useState(schedule?.date ?? "");
+  const [date, setDate] = useState(schedule?.date ?? initialDate ?? "");
   const [startTime, setStartTime] = useState(schedule?.startTime ?? "");
-  const [endTime, setEndTime] = useState(schedule?.endTime ?? "");
   const [customerName, setCustomerName] = useState(schedule?.customerName ?? "");
   const [customerPhone, setCustomerPhone] = useState(schedule?.customerPhone ?? "");
   const [memo, setMemo] = useState(schedule?.memo ?? "");
@@ -39,7 +40,14 @@ export function ScheduleForm({
     setError(null);
     setLoading(true);
 
-    const payload = { date, startTime, endTime, customerName, customerPhone, memo };
+    const payload = {
+      date,
+      startTime,
+      endTime: startTime,
+      customerName,
+      customerPhone,
+      memo,
+    };
 
     try {
       const res = await fetch(
@@ -76,34 +84,23 @@ export function ScheduleForm({
         저장 후 네이버예약에서도 이 시간 전후 1시간을 예약불가로 막아주세요.
       </div>
 
-      <label className="flex flex-col gap-1 text-sm">
-        날짜
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2"
-          required
-        />
-      </label>
-
       <div className="flex gap-3">
         <label className="flex flex-1 flex-col gap-1 text-sm">
-          시작
+          날짜
           <input
-            type="time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
             className="rounded-lg border border-neutral-300 px-3 py-2"
             required
           />
         </label>
         <label className="flex flex-1 flex-col gap-1 text-sm">
-          종료
+          시간
           <input
             type="time"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
             className="rounded-lg border border-neutral-300 px-3 py-2"
             required
           />

@@ -70,7 +70,7 @@ export default async function SalesPage({
 
       <Link
         href="/sales/new"
-        className="fixed bottom-24 right-4 rounded-full bg-neutral-900 px-5 py-3 text-sm font-medium text-white shadow-lg"
+        className="fixed bottom-6 right-4 rounded-full bg-neutral-900 px-5 py-3 text-sm font-medium text-white shadow-lg"
       >
         + 매출 등록
       </Link>

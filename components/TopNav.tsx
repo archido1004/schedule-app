@@ -11,11 +11,11 @@ const ITEMS = [
   { href: "/settings", label: "설정" },
 ];
 
-export function BottomNav() {
+export function TopNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-10 border-t border-neutral-200 bg-white/95 backdrop-blur">
+    <nav className="sticky top-0 z-10 border-b border-neutral-200 bg-white/95 backdrop-blur">
       <ul className="mx-auto flex max-w-md">
         {ITEMS.map((item) => {
           const active =
@@ -24,8 +24,10 @@ export function BottomNav() {
             <li key={item.href} className="flex-1">
               <Link
                 href={item.href}
-                className={`flex flex-col items-center gap-1 py-3 text-xs ${
-                  active ? "font-semibold text-neutral-900" : "text-neutral-500"
+                className={`block border-b-2 py-4 text-center text-base font-medium transition-colors ${
+                  active
+                    ? "border-neutral-900 text-neutral-900 font-semibold"
+                    : "border-transparent text-neutral-500 hover:text-neutral-700"
                 }`}
               >
                 {item.label}

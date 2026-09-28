@@ -33,7 +33,9 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
       {entries.map((entry) => (
         <div
           key={entry.id}
-          className="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm"
+          className={`flex items-center justify-between rounded-lg border-l-4 bg-white p-4 shadow-sm transition-shadow hover:shadow-md ${
+            entry.method === "CASH" ? "border-l-green-500" : "border-l-blue-500"
+          }`}
         >
           <div>
             <div className="flex items-center gap-2">

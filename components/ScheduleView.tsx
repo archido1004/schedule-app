@@ -50,46 +50,41 @@ export function ScheduleView({
           revenueByDate={revenueByDate}
         />
       ) : (
-        <div className="flex flex-col gap-4">
-          {sortedDateKeys.length === 0 && (
-            <p className="rounded-lg bg-white p-4 text-sm text-neutral-500 shadow-sm">
+        <div className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
+          {sortedDateKeys.length === 0 ? (
+            <p className="p-4 text-sm text-neutral-500">
               이 달에 등록된 일정이 없습니다.
             </p>
+          ) : (
+            <div className="divide-y divide-neutral-100">
+              {sortedDateKeys.flatMap((dateKey) => {
+                const weekday = new Date(dateKey + "T00:00:00Z").getUTCDay();
+                const weekdayClass =
+                  weekday === 0
+                    ? "text-red-500"
+                    : weekday === 6
+                    ? "text-blue-500"
+                    : "text-neutral-500";
+                return schedulesByDate[dateKey].map((s, idx) => (
+                  <Link
+                    key={s.id}
+                    href={`/schedule/${s.id}`}
+                    className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-neutral-50"
+                  >
+                    <span className={`w-[86px] shrink-0 ${weekdayClass}`}>
+                      {idx === 0 ? dateKey.slice(5) : ""}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate">
+                      {s.customerName}
+                    </span>
+                    <span className="shrink-0 text-neutral-500">
+                      {s.startTime}
+                    </span>
+                  </Link>
+                ));
+              })}
+            </div>
           )}
-          {sortedDateKeys.map((dateKey) => {
-            const weekday = new Date(dateKey + "T00:00:00Z").getUTCDay();
-            const weekdayClass =
-              weekday === 0
-                ? "text-red-500"
-                : weekday === 6
-                ? "text-blue-500"
-                : "text-neutral-500";
-            return (
-              <div key={dateKey}>
-                <p className={`mb-2 text-sm font-medium ${weekdayClass}`}>
-                  {dateKey}
-                </p>
-                <div className="flex flex-col gap-2">
-                  {schedulesByDate[dateKey].map((s) => (
-                    <Link
-                      key={s.id}
-                      href={`/schedule/${s.id}`}
-                      className="block rounded-lg border-l-4 border-l-indigo-500 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="min-w-0 flex-1 truncate font-medium">
-                          {s.customerName}
-                        </span>
-                        <span className="shrink-0 text-sm text-neutral-500">
-                          {s.startTime}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
         </div>
       )}
     </div>

@@ -76,9 +76,11 @@ export function ScheduleView({
                       href={`/schedule/${s.id}`}
                       className="block rounded-lg border-l-4 border-l-indigo-500 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">{s.customerName}</span>
-                        <span className="text-sm text-neutral-500">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="min-w-0 flex-1 truncate font-medium">
+                          {s.customerName}
+                        </span>
+                        <span className="shrink-0 text-sm text-neutral-500">
                           {s.startTime}
                         </span>
                       </div>

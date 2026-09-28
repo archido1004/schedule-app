@@ -56,7 +56,15 @@ export default async function SalesPage({
         </div>
       </section>
 
-      <div className="mt-4">
+      <p className="mt-4 text-xs text-neutral-500">
+        매출은{" "}
+        <Link href="/schedule/new" className="underline">
+          일정 등록
+        </Link>
+        {" "}화면에서 함께 입력하세요.
+      </p>
+
+      <div className="mt-3">
         <SalesList
           entries={entries.map((e) => ({
             id: e.id,
@@ -64,16 +72,10 @@ export default async function SalesPage({
             amount: e.amount,
             method: e.method as "CASH" | "CARD",
             memo: e.memo,
+            scheduleId: e.scheduleId,
           }))}
         />
       </div>
-
-      <Link
-        href="/sales/new"
-        className="fixed bottom-6 right-4 rounded-full bg-neutral-900 px-5 py-3 text-sm font-medium text-white shadow-lg"
-      >
-        + 매출 등록
-      </Link>
     </main>
   );
 }

@@ -15,13 +15,21 @@ type Schedule = {
   memo: string | null;
 };
 
+type SalesEntry = {
+  id: string;
+  amount: number;
+  method: "CASH" | "CARD";
+};
+
 export function ScheduleForm({
   schedule,
   initialDate,
+  existingSales,
   kakaoChannelUrl,
 }: {
   schedule?: Schedule;
   initialDate?: string;
+  existingSales?: SalesEntry;
   kakaoChannelUrl: string | null;
 }) {
   const router = useRouter();
@@ -32,6 +40,12 @@ export function ScheduleForm({
   const [customerName, setCustomerName] = useState(schedule?.customerName ?? "");
   const [customerPhone, setCustomerPhone] = useState(schedule?.customerPhone ?? "");
   const [memo, setMemo] = useState(schedule?.memo ?? "");
+  const [salesAmount, setSalesAmount] = useState(
+    existingSales ? String(existingSales.amount) : ""
+  );
+  const [salesMethod, setSalesMethod] = useState<"CASH" | "CARD">(
+    existingSales?.method ?? "CASH"
+  );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -63,6 +77,34 @@ export function ScheduleForm({
         setError(data.error ?? "저장에 실패했습니다.");
         return;
       }
+
+      const scheduleId = isEdit ? schedule!.id : data.id;
+      const amount = Number(salesAmount);
+
+      if (salesAmount && amount > 0) {
+        if (existingSales) {
+          await fetch(`/api/sales/${existingSales.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ date, amount, method: salesMethod }),
+          });
+        } else {
+          await fetch("/api/sales", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              date,
+              amount,
+              method: salesMethod,
+              scheduleId,
+              memo: customerName,
+            }),
+          });
+        }
+      } else if (existingSales) {
+        await fetch(`/api/sales/${existingSales.id}`, { method: "DELETE" });
+      }
+
       router.push("/schedule");
       router.refresh();
     } finally {
@@ -72,7 +114,10 @@ export function ScheduleForm({
 
   async function handleDelete() {
     if (!schedule) return;
-    if (!confirm("이 일정을 삭제할까요?")) return;
+    if (!confirm("이 일정을 삭제할까요? (연결된 매출 기록도 함께 삭제됩니다)")) return;
+    if (existingSales) {
+      await fetch(`/api/sales/${existingSales.id}`, { method: "DELETE" });
+    }
     await fetch(`/api/schedules/${schedule.id}`, { method: "DELETE" });
     router.push("/schedule");
     router.refresh();
@@ -141,6 +186,45 @@ export function ScheduleForm({
           )}
         </div>
       )}
+
+      <div className="rounded-lg border border-neutral-200 p-3">
+        <p className="mb-2 text-sm font-medium text-neutral-700">
+          매출 (선택)
+        </p>
+        <div className="flex gap-2">
+          <input
+            type="number"
+            inputMode="numeric"
+            placeholder="금액"
+            value={salesAmount}
+            onChange={(e) => setSalesAmount(e.target.value)}
+            className="flex-1 rounded-lg border border-neutral-300 px-3 py-2"
+            min={0}
+          />
+          <button
+            type="button"
+            onClick={() => setSalesMethod("CASH")}
+            className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+              salesMethod === "CASH"
+                ? "border-green-600 bg-green-50 text-green-700"
+                : "border-neutral-300 text-neutral-500"
+            }`}
+          >
+            현금
+          </button>
+          <button
+            type="button"
+            onClick={() => setSalesMethod("CARD")}
+            className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+              salesMethod === "CARD"
+                ? "border-blue-600 bg-blue-50 text-blue-700"
+                : "border-neutral-300 text-neutral-500"
+            }`}
+          >
+            카드
+          </button>
+        </div>
+      </div>
 
       <label className="flex flex-col gap-1 text-sm">
         메모

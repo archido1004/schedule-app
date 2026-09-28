@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/lib/format";
 
@@ -9,6 +10,7 @@ type SalesEntry = {
   amount: number;
   method: "CASH" | "CARD";
   memo: string | null;
+  scheduleId: string | null;
 };
 
 export function SalesList({ entries }: { entries: SalesEntry[] }) {
@@ -30,38 +32,52 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
 
   return (
     <div className="flex flex-col gap-2">
-      {entries.map((entry) => (
-        <div
-          key={entry.id}
-          className={`flex items-center justify-between rounded-lg border-l-4 bg-white p-4 shadow-sm transition-shadow hover:shadow-md ${
-            entry.method === "CASH" ? "border-l-green-500" : "border-l-blue-500"
-          }`}
-        >
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium">{formatCurrency(entry.amount)}</span>
-              <span
-                className={`rounded px-2 py-0.5 text-xs ${
-                  entry.method === "CASH"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-blue-100 text-blue-700"
-                }`}
-              >
-                {entry.method === "CASH" ? "현금" : "카드"}
-              </span>
+      {entries.map((entry) => {
+        const content = (
+          <>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{formatCurrency(entry.amount)}</span>
+                <span
+                  className={`rounded px-2 py-0.5 text-xs ${
+                    entry.method === "CASH"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-blue-100 text-blue-700"
+                  }`}
+                >
+                  {entry.method === "CASH" ? "현금" : "카드"}
+                </span>
+              </div>
+              <p className="mt-1 text-xs text-neutral-500">
+                {entry.date} {entry.memo ? `· ${entry.memo}` : ""}
+              </p>
             </div>
-            <p className="mt-1 text-xs text-neutral-500">
-              {entry.date} {entry.memo ? `· ${entry.memo}` : ""}
-            </p>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                handleDelete(entry.id);
+              }}
+              className="text-xs text-red-600"
+            >
+              삭제
+            </button>
+          </>
+        );
+
+        const className = `flex items-center justify-between rounded-lg border-l-4 bg-white p-4 shadow-sm transition-shadow hover:shadow-md ${
+          entry.method === "CASH" ? "border-l-green-500" : "border-l-blue-500"
+        }`;
+
+        return entry.scheduleId ? (
+          <Link key={entry.id} href={`/schedule/${entry.scheduleId}`} className={className}>
+            {content}
+          </Link>
+        ) : (
+          <div key={entry.id} className={className}>
+            {content}
           </div>
-          <button
-            onClick={() => handleDelete(entry.id)}
-            className="text-xs text-red-600"
-          >
-            삭제
-          </button>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

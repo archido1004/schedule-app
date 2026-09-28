@@ -9,9 +9,10 @@ export default async function EditSchedulePage({
 }) {
   const { id } = await params;
 
-  const [schedule, settings] = await Promise.all([
+  const [schedule, settings, salesEntry] = await Promise.all([
     prisma.schedule.findUnique({ where: { id } }),
     prisma.appSettings.findUnique({ where: { id: "singleton" } }),
+    prisma.salesEntry.findFirst({ where: { scheduleId: id } }),
   ]);
 
   if (!schedule) notFound();
@@ -29,6 +30,15 @@ export default async function EditSchedulePage({
           customerPhone: schedule.customerPhone,
           memo: schedule.memo,
         }}
+        existingSales={
+          salesEntry
+            ? {
+                id: salesEntry.id,
+                amount: salesEntry.amount,
+                method: salesEntry.method as "CASH" | "CARD",
+              }
+            : undefined
+        }
         kakaoChannelUrl={settings?.kakaoChannelUrl ?? null}
       />
     </main>

@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ScheduleCalendar } from "@/components/ScheduleCalendar";
+import { weekdayColorClass, weekdayIndex, weekdayLabel } from "@/lib/format";
 
 type ScheduleItem = { id: string; customerName: string; startTime: string };
+type RangeEvent = { id: string; title: string; startKey: string; endKey: string };
 
 export function ScheduleView({
   monthKey,
@@ -12,12 +14,14 @@ export function ScheduleView({
   schedulesByDate,
   revenueByDate,
   sortedDateKeys,
+  rangeEvents,
 }: {
   monthKey: string;
   todayKey: string;
   schedulesByDate: Record<string, ScheduleItem[]>;
   revenueByDate: Record<string, number>;
   sortedDateKeys: string[];
+  rangeEvents: RangeEvent[];
 }) {
   const [view, setView] = useState<"calendar" | "list">("calendar");
 
@@ -48,31 +52,46 @@ export function ScheduleView({
           todayKey={todayKey}
           schedulesByDate={schedulesByDate}
           revenueByDate={revenueByDate}
+          rangeEvents={rangeEvents}
         />
       ) : (
         <div className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
-          {sortedDateKeys.length === 0 ? (
+          {sortedDateKeys.length === 0 && rangeEvents.length === 0 ? (
             <p className="p-4 text-sm text-neutral-500">
               이 달에 등록된 일정이 없습니다.
             </p>
           ) : (
             <div className="divide-y divide-neutral-100">
-              {sortedDateKeys.flatMap((dateKey) => {
-                const weekday = new Date(dateKey + "T00:00:00Z").getUTCDay();
-                const weekdayClass =
-                  weekday === 0
-                    ? "text-red-500"
-                    : weekday === 6
-                    ? "text-blue-500"
-                    : "text-neutral-500";
-                return schedulesByDate[dateKey].map((s, idx) => (
+              {rangeEvents.map((ev) => (
+                <Link
+                  key={ev.id}
+                  href={`/schedule/${ev.id}`}
+                  className="flex items-center gap-2 bg-violet-50/60 px-3 py-2 text-sm hover:bg-violet-100"
+                >
+                  <span className="w-[86px] shrink-0 text-violet-500">
+                    종일
+                  </span>
+                  <span className="min-w-0 flex-1 truncate">{ev.title}</span>
+                  <span className="shrink-0 text-xs text-neutral-500">
+                    {ev.startKey.slice(5)}~{ev.endKey.slice(5)}
+                  </span>
+                </Link>
+              ))}
+              {sortedDateKeys.flatMap((dateKey) =>
+                schedulesByDate[dateKey].map((s, idx) => (
                   <Link
                     key={s.id}
                     href={`/schedule/${s.id}`}
                     className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-neutral-50"
                   >
-                    <span className={`w-[86px] shrink-0 ${weekdayClass}`}>
-                      {idx === 0 ? dateKey.slice(5) : ""}
+                    <span
+                      className={`w-[86px] shrink-0 ${weekdayColorClass(
+                        weekdayIndex(dateKey)
+                      )}`}
+                    >
+                      {idx === 0
+                        ? `${dateKey.slice(5)} ${weekdayLabel(dateKey)}`
+                        : ""}
                     </span>
                     <span className="min-w-0 flex-1 truncate">
                       {s.customerName}
@@ -81,8 +100,8 @@ export function ScheduleView({
                       {s.startTime}
                     </span>
                   </Link>
-                ));
-              })}
+                ))
+              )}
             </div>
           )}
         </div>

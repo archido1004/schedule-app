@@ -6,9 +6,9 @@ export const dynamic = "force-dynamic";
 export default async function NewSchedulePage({
   searchParams,
 }: {
-  searchParams: Promise<{ date?: string }>;
+  searchParams: Promise<{ date?: string; endDate?: string }>;
 }) {
-  const { date } = await searchParams;
+  const { date, endDate } = await searchParams;
   const settings = await prisma.appSettings.findUnique({
     where: { id: "singleton" },
   });
@@ -18,6 +18,7 @@ export default async function NewSchedulePage({
       <h1 className="mb-4 text-lg font-semibold">일정 등록</h1>
       <ScheduleForm
         initialDate={date}
+        initialEndDate={endDate}
         kakaoChannelUrl={settings?.kakaoChannelUrl ?? null}
       />
     </main>

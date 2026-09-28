@@ -1,7 +1,28 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { currentMonthKey, dateKeyToUTCDate, todayKeyKST } from "@/lib/format";
+import {
+  currentMonthKey,
+  dateKeyToUTCDate,
+  formatDateKey,
+  todayKeyKST,
+} from "@/lib/format";
 import { ScheduleView } from "@/components/ScheduleView";
+
+const NAVER_BOOKING_BIZ_ID = "712538";
+
+function naverBookingUrl(): string {
+  const todayKey = todayKeyKST();
+  const rollEnd = new Date(dateKeyToUTCDate(todayKey).getTime() + 29 * 86400000);
+  const endKey = formatDateKey(rollEnd);
+  const params = new URLSearchParams({
+    dateDropdownType: "MONTH",
+    startDateTime: todayKey,
+    endDateTime: endKey,
+    dateFilter: "USEDATE",
+    searchValueCode: "USER_NAME",
+  });
+  return `https://partner.booking.naver.com/bizes/${NAVER_BOOKING_BIZ_ID}/booking-list-view?${params}`;
+}
 
 export default async function SchedulePage({
   searchParams,
@@ -17,7 +38,10 @@ export default async function SchedulePage({
 
   const [schedules, salesEntries] = await Promise.all([
     prisma.schedule.findMany({
-      where: { date: { gte: start, lt: end } },
+      where: {
+        date: { lt: end },
+        OR: [{ endDate: null, date: { gte: start } }, { endDate: { gte: start } }],
+      },
       orderBy: [{ date: "asc" }, { startTime: "asc" }],
     }),
     prisma.salesEntry.findMany({
@@ -29,13 +53,29 @@ export default async function SchedulePage({
     string,
     { id: string; customerName: string; startTime: string }[]
   > = {};
+  const rangeEvents: {
+    id: string;
+    title: string;
+    startKey: string;
+    endKey: string;
+  }[] = [];
+
   for (const s of schedules) {
     const key = s.date.toISOString().slice(0, 10);
-    (schedulesByDate[key] ??= []).push({
-      id: s.id,
-      customerName: s.customerName,
-      startTime: s.startTime,
-    });
+    if (s.endDate) {
+      rangeEvents.push({
+        id: s.id,
+        title: s.customerName,
+        startKey: key,
+        endKey: s.endDate.toISOString().slice(0, 10),
+      });
+    } else {
+      (schedulesByDate[key] ??= []).push({
+        id: s.id,
+        customerName: s.customerName,
+        startTime: s.startTime,
+      });
+    }
   }
 
   const revenueByDate: Record<string, number> = {};
@@ -72,10 +112,15 @@ export default async function SchedulePage({
         </Link>
       </div>
 
-      <div className="mt-4 rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
-        일정을 등록하면 그 시간 전후 1시간은 네이버예약에서도 직접
-        예약불가 처리해두세요. (자동 연동은 아직 준비 중입니다)
-      </div>
+      <a
+        href={naverBookingUrl()}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 flex items-center justify-between rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-800 hover:bg-green-100"
+      >
+        네이버예약 바로가기
+        <span aria-hidden>→</span>
+      </a>
 
       <div className="mt-4">
         <ScheduleView
@@ -84,6 +129,7 @@ export default async function SchedulePage({
           schedulesByDate={schedulesByDate}
           revenueByDate={revenueByDate}
           sortedDateKeys={sortedDateKeys}
+          rangeEvents={rangeEvents}
         />
       </div>
 

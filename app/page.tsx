@@ -5,6 +5,7 @@ import {
   dateKeyToUTCDate,
   formatCurrency,
   todayKeyKST,
+  weekdayLabel,
 } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -15,10 +16,13 @@ export default async function DashboardPage() {
   const tomorrowDate = new Date(todayDate);
   tomorrowDate.setUTCDate(tomorrowDate.getUTCDate() + 1);
 
-  const [todaySchedules, monthEntries] = await Promise.all([
+  const [todaySchedules, todayRangeEvents, monthEntries] = await Promise.all([
     prisma.schedule.findMany({
-      where: { date: { gte: todayDate, lt: tomorrowDate } },
+      where: { date: todayDate, endDate: null },
       orderBy: { startTime: "asc" },
+    }),
+    prisma.schedule.findMany({
+      where: { date: { lte: todayDate }, endDate: { gte: todayDate } },
     }),
     prisma.salesEntry.findMany({
       where: {
@@ -41,10 +45,26 @@ export default async function DashboardPage() {
 
   return (
     <main className="mx-auto max-w-md p-4 pt-6">
-      <h1 className="text-lg font-semibold">오늘 ({todayKey})</h1>
+      <h1 className="text-lg font-semibold">
+        오늘 ({todayKey} {weekdayLabel(todayKey)})
+      </h1>
 
       <section className="mt-3 flex flex-col gap-2">
-        {todaySchedules.length === 0 ? (
+        {todayRangeEvents.map((ev) => (
+          <Link
+            key={ev.id}
+            href={`/schedule/${ev.id}`}
+            className="block rounded-lg border-l-4 border-l-violet-500 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <span className="min-w-0 flex-1 truncate font-medium">
+                {ev.customerName}
+              </span>
+              <span className="shrink-0 text-sm text-violet-500">종일</span>
+            </div>
+          </Link>
+        ))}
+        {todaySchedules.length === 0 && todayRangeEvents.length === 0 ? (
           <p className="rounded-lg bg-white p-4 text-sm text-neutral-500 shadow-sm">
             오늘 등록된 일정이 없습니다.
           </p>

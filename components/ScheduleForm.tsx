@@ -8,6 +8,7 @@ import { CopyButton } from "@/components/CopyButton";
 type Schedule = {
   id: string;
   date: string; // YYYY-MM-DD
+  endDate: string | null;
   startTime: string;
   endTime: string;
   customerName: string;
@@ -24,11 +25,13 @@ type SalesEntry = {
 export function ScheduleForm({
   schedule,
   initialDate,
+  initialEndDate,
   existingSales,
   kakaoChannelUrl,
 }: {
   schedule?: Schedule;
   initialDate?: string;
+  initialEndDate?: string;
   existingSales?: SalesEntry;
   kakaoChannelUrl: string | null;
 }) {
@@ -36,6 +39,13 @@ export function ScheduleForm({
   const isEdit = Boolean(schedule);
 
   const [date, setDate] = useState(schedule?.date ?? initialDate ?? "");
+  const [endDate, setEndDate] = useState(
+    schedule?.endDate ?? initialEndDate ?? ""
+  );
+  const [isRange, setIsRange] = useState(
+    Boolean(schedule?.endDate) ||
+      Boolean(initialEndDate && initialEndDate !== initialDate)
+  );
   const [startTime, setStartTime] = useState(schedule?.startTime ?? "");
   const [customerName, setCustomerName] = useState(schedule?.customerName ?? "");
   const [customerPhone, setCustomerPhone] = useState(schedule?.customerPhone ?? "");
@@ -49,15 +59,26 @@ export function ScheduleForm({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  function toggleRange() {
+    setIsRange((prev) => {
+      const next = !prev;
+      if (!next) setEndDate("");
+      else if (!endDate) setEndDate(date);
+      return next;
+    });
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
+    const effectiveTime = isRange ? "00:00" : startTime;
     const payload = {
       date,
-      startTime,
-      endTime: startTime,
+      endDate: isRange ? endDate || date : null,
+      startTime: effectiveTime,
+      endTime: effectiveTime,
       customerName,
       customerPhone,
       memo,
@@ -125,13 +146,22 @@ export function ScheduleForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
-        저장 후 네이버예약에서도 이 시간 전후 1시간을 예약불가로 막아주세요.
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-neutral-700">
+          {isRange ? "기간 일정 (종일)" : "날짜/시간"}
+        </p>
+        <button
+          type="button"
+          onClick={toggleRange}
+          className="text-xs text-indigo-600 underline"
+        >
+          {isRange ? "하루 일정으로 변경" : "여러 날짜(기간)로 등록"}
+        </button>
       </div>
 
       <div className="flex gap-3">
         <label className="flex flex-1 flex-col gap-1 text-sm">
-          날짜
+          {isRange ? "시작일" : "날짜"}
           <input
             type="date"
             value={date}
@@ -140,16 +170,30 @@ export function ScheduleForm({
             required
           />
         </label>
-        <label className="flex flex-1 flex-col gap-1 text-sm">
-          시간
-          <input
-            type="time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-2"
-            required
-          />
-        </label>
+        {isRange ? (
+          <label className="flex flex-1 flex-col gap-1 text-sm">
+            종료일
+            <input
+              type="date"
+              value={endDate}
+              min={date}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="rounded-lg border border-neutral-300 px-3 py-2"
+              required
+            />
+          </label>
+        ) : (
+          <label className="flex flex-1 flex-col gap-1 text-sm">
+            시간
+            <input
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              className="rounded-lg border border-neutral-300 px-3 py-2"
+              required
+            />
+          </label>
+        )}
       </div>
 
       <label className="flex flex-col gap-1 text-sm">

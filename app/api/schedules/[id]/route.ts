@@ -26,12 +26,16 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await request.json();
-  const { date, startTime, endTime, customerName, customerPhone, memo } = body;
+  const { date, endDate, startTime, endTime, customerName, customerPhone, memo } =
+    body;
 
   const schedule = await prisma.schedule.update({
     where: { id },
     data: {
       ...(date !== undefined ? { date: new Date(date) } : {}),
+      ...(endDate !== undefined
+        ? { endDate: endDate && endDate !== date ? new Date(endDate) : null }
+        : {}),
       ...(startTime !== undefined ? { startTime } : {}),
       ...(endTime !== undefined ? { endTime } : {}),
       ...(customerName !== undefined ? { customerName } : {}),

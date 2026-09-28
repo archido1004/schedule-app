@@ -34,3 +34,30 @@ export function todayKeyKST(): string {
     day: "2-digit",
   }).format(new Date());
 }
+
+const WEEKDAY_KO = ["일", "월", "화", "수", "목", "금", "토"] as const;
+
+export function weekdayLabel(dateKey: string): string {
+  const weekday = dateKeyToUTCDate(dateKey).getUTCDay();
+  return `(${WEEKDAY_KO[weekday]})`;
+}
+
+export function weekdayIndex(dateKey: string): number {
+  return dateKeyToUTCDate(dateKey).getUTCDay();
+}
+
+export function weekdayColorClass(weekday: number): string {
+  if (weekday === 0) return "text-red-500";
+  if (weekday === 6) return "text-blue-500";
+  return "text-neutral-500";
+}
+
+export function dateRangeKeys(startKey: string, endKey: string): string[] {
+  const start = dateKeyToUTCDate(startKey);
+  const end = dateKeyToUTCDate(endKey);
+  const keys: string[] = [];
+  for (let d = start; d <= end; d = new Date(d.getTime() + 86400000)) {
+    keys.push(formatDateKey(d));
+  }
+  return keys;
+}

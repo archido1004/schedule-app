@@ -10,6 +10,7 @@ datasource db {
 model Schedule {
   id            String       @id @default(cuid())
   date          DateTime
+  endDate       DateTime?
   startTime     String
   endTime       String
   customerName  String

@@ -24,6 +24,9 @@ export default async function EditSchedulePage({
         schedule={{
           id: schedule.id,
           date: schedule.date.toISOString().slice(0, 10),
+          endDate: schedule.endDate
+            ? schedule.endDate.toISOString().slice(0, 10)
+            : null,
           startTime: schedule.startTime,
           endTime: schedule.endTime,
           customerName: schedule.customerName,

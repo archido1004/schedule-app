@@ -16,7 +16,15 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const month = searchParams.get("month");
 
-  const where = month ? { date: { gte: monthRange(month).start, lt: monthRange(month).end } } : {};
+  const where = month
+    ? {
+        date: { lt: monthRange(month).end },
+        OR: [
+          { endDate: null, date: { gte: monthRange(month).start } },
+          { endDate: { gte: monthRange(month).start } },
+        ],
+      }
+    : {};
 
   const schedules = await prisma.schedule.findMany({
     where,
@@ -31,7 +39,7 @@ export async function POST(request: Request) {
   if (unauthorized) return unauthorized;
 
   const body = await request.json();
-  const { date, startTime, endTime, customerName, customerPhone, memo } = body;
+  const { date, endDate, startTime, endTime, customerName, customerPhone, memo } = body;
 
   if (!date || !startTime || !endTime || !customerName) {
     return NextResponse.json(
@@ -43,6 +51,7 @@ export async function POST(request: Request) {
   const schedule = await prisma.schedule.create({
     data: {
       date: new Date(date),
+      endDate: endDate && endDate !== date ? new Date(endDate) : null,
       startTime,
       endTime,
       customerName,

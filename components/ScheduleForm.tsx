@@ -1,0 +1,179 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { buildChannelInviteMessage } from "@/lib/share";
+import { CopyButton } from "@/components/CopyButton";
+
+type Schedule = {
+  id: string;
+  date: string; // YYYY-MM-DD
+  startTime: string;
+  endTime: string;
+  customerName: string;
+  customerPhone: string | null;
+  memo: string | null;
+};
+
+export function ScheduleForm({
+  schedule,
+  kakaoChannelUrl,
+}: {
+  schedule?: Schedule;
+  kakaoChannelUrl: string | null;
+}) {
+  const router = useRouter();
+  const isEdit = Boolean(schedule);
+
+  const [date, setDate] = useState(schedule?.date ?? "");
+  const [startTime, setStartTime] = useState(schedule?.startTime ?? "");
+  const [endTime, setEndTime] = useState(schedule?.endTime ?? "");
+  const [customerName, setCustomerName] = useState(schedule?.customerName ?? "");
+  const [customerPhone, setCustomerPhone] = useState(schedule?.customerPhone ?? "");
+  const [memo, setMemo] = useState(schedule?.memo ?? "");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const payload = { date, startTime, endTime, customerName, customerPhone, memo };
+
+    try {
+      const res = await fetch(
+        isEdit ? `/api/schedules/${schedule!.id}` : "/api/schedules",
+        {
+          method: isEdit ? "PATCH" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "저장에 실패했습니다.");
+        return;
+      }
+      router.push("/schedule");
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDelete() {
+    if (!schedule) return;
+    if (!confirm("이 일정을 삭제할까요?")) return;
+    await fetch(`/api/schedules/${schedule.id}`, { method: "DELETE" });
+    router.push("/schedule");
+    router.refresh();
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div className="rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
+        저장 후 네이버예약에서도 이 시간 전후 1시간을 예약불가로 막아주세요.
+      </div>
+
+      <label className="flex flex-col gap-1 text-sm">
+        날짜
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="rounded-lg border border-neutral-300 px-3 py-2"
+          required
+        />
+      </label>
+
+      <div className="flex gap-3">
+        <label className="flex flex-1 flex-col gap-1 text-sm">
+          시작
+          <input
+            type="time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            className="rounded-lg border border-neutral-300 px-3 py-2"
+            required
+          />
+        </label>
+        <label className="flex flex-1 flex-col gap-1 text-sm">
+          종료
+          <input
+            type="time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            className="rounded-lg border border-neutral-300 px-3 py-2"
+            required
+          />
+        </label>
+      </div>
+
+      <label className="flex flex-col gap-1 text-sm">
+        고객명
+        <input
+          type="text"
+          value={customerName}
+          onChange={(e) => setCustomerName(e.target.value)}
+          className="rounded-lg border border-neutral-300 px-3 py-2"
+          required
+        />
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
+        연락처
+        <input
+          type="tel"
+          placeholder="010-0000-0000"
+          value={customerPhone}
+          onChange={(e) => setCustomerPhone(e.target.value)}
+          className="rounded-lg border border-neutral-300 px-3 py-2"
+        />
+      </label>
+
+      {customerPhone && (
+        <div className="flex items-center justify-between rounded-lg bg-neutral-100 p-3 text-sm">
+          <span>카카오톡 채널 추가 안내 보내기</span>
+          {kakaoChannelUrl ? (
+            <CopyButton text={buildChannelInviteMessage(kakaoChannelUrl)} />
+          ) : (
+            <span className="text-xs text-neutral-500">
+              설정에서 채널 링크를 먼저 등록하세요
+            </span>
+          )}
+        </div>
+      )}
+
+      <label className="flex flex-col gap-1 text-sm">
+        메모
+        <textarea
+          value={memo}
+          onChange={(e) => setMemo(e.target.value)}
+          className="rounded-lg border border-neutral-300 px-3 py-2"
+          rows={3}
+        />
+      </label>
+
+      {error && <p className="text-sm text-red-600">{error}</p>}
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="rounded-lg bg-neutral-900 px-4 py-3 font-medium text-white disabled:opacity-50"
+      >
+        {loading ? "저장 중..." : isEdit ? "수정 저장" : "일정 등록"}
+      </button>
+
+      {isEdit && (
+        <button
+          type="button"
+          onClick={handleDelete}
+          className="rounded-lg border border-red-200 px-4 py-3 text-sm font-medium text-red-600"
+        >
+          삭제
+        </button>
+      )}
+    </form>
+  );
+}

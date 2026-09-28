@@ -66,6 +66,8 @@ export default async function DashboardPage() {
         :)
       </p>
 
+      <hr className="mt-4 border-neutral-200" />
+
       <section className="mt-4 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
         {todayRangeEvents.length === 0 && todaySchedules.length === 0 ? (
           <p className="p-4 text-sm text-neutral-400">

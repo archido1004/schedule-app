@@ -188,7 +188,7 @@ export function ScheduleCalendar({
                     ? `/schedule/new?date=${selStart}&endDate=${selEnd}`
                     : `/schedule/new?date=${selStart}`
                 }
-                className="rounded-full bg-neutral-900 px-3.5 py-1.5 text-xs font-semibold text-white"
+                className="rounded-full bg-gradient-to-br from-violet-500 to-blue-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm shadow-blue-500/30"
               >
                 {hasRange ? "이 기간으로 등록" : "이 날짜로 등록"}
               </Link>

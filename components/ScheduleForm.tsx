@@ -285,7 +285,7 @@ export function ScheduleForm({
       <button
         type="submit"
         disabled={loading}
-        className="rounded-lg bg-neutral-900 px-4 py-3 font-medium text-white disabled:opacity-50"
+        className="rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 px-4 py-3 font-semibold text-white shadow-sm shadow-blue-500/30 disabled:opacity-50"
       >
         {loading ? "저장 중..." : isEdit ? "수정 저장" : "일정 등록"}
       </button>

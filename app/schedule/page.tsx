@@ -123,6 +123,8 @@ export default async function SchedulePage({
 
       <NaverBookingButton href={naverBookingUrl()} />
 
+      <hr className="mt-4 border-neutral-200" />
+
       <div className="mt-4">
         <ScheduleView
           monthKey={monthKey}
@@ -136,7 +138,7 @@ export default async function SchedulePage({
 
       <Link
         href="/schedule/new"
-        className="fixed bottom-6 right-4 rounded-full bg-neutral-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-neutral-900/20 transition-transform hover:scale-105"
+        className="fixed bottom-6 right-4 rounded-full bg-gradient-to-br from-violet-500 to-blue-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-transform hover:scale-105"
       >
         + 일정 등록
       </Link>

@@ -49,9 +49,16 @@ export default async function SchedulePage({
     }),
   ]);
 
+  const methodByScheduleId: Record<string, "CASH" | "CARD"> = {};
+  for (const entry of salesEntries) {
+    if (entry.scheduleId) {
+      methodByScheduleId[entry.scheduleId] = entry.method as "CASH" | "CARD";
+    }
+  }
+
   const schedulesByDate: Record<
     string,
-    { id: string; customerName: string; startTime: string }[]
+    { id: string; customerName: string; startTime: string; method?: "CASH" | "CARD" }[]
   > = {};
   const rangeEvents: {
     id: string;
@@ -74,6 +81,7 @@ export default async function SchedulePage({
         id: s.id,
         customerName: s.customerName,
         startTime: s.startTime,
+        method: methodByScheduleId[s.id],
       });
     }
   }
@@ -99,14 +107,14 @@ export default async function SchedulePage({
       <div className="flex items-center justify-between">
         <Link
           href={`/schedule?month=${prevMonth}`}
-          className="rounded-md px-2 py-1 text-sm text-neutral-500"
+          className="rounded-full px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
         >
           ← 이전달
         </Link>
-        <h1 className="text-lg font-semibold">{monthKey}</h1>
+        <h1 className="text-xl font-bold tracking-tight">{monthKey}</h1>
         <Link
           href={`/schedule?month=${nextMonth}`}
-          className="rounded-md px-2 py-1 text-sm text-neutral-500"
+          className="rounded-full px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
         >
           다음달 →
         </Link>
@@ -116,7 +124,7 @@ export default async function SchedulePage({
         href={naverBookingUrl()}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 flex items-center justify-between rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-800 hover:bg-green-100"
+        className="mt-4 flex items-center justify-between rounded-2xl bg-green-50 px-4 py-3 text-sm font-semibold text-green-700 transition-colors hover:bg-green-100"
       >
         네이버예약 바로가기
         <span aria-hidden>→</span>
@@ -135,7 +143,7 @@ export default async function SchedulePage({
 
       <Link
         href="/schedule/new"
-        className="fixed bottom-6 right-4 rounded-full bg-neutral-900 px-5 py-3 text-sm font-medium text-white shadow-lg"
+        className="fixed bottom-6 right-4 rounded-full bg-neutral-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-neutral-900/20 transition-transform hover:scale-105"
       >
         + 일정 등록
       </Link>

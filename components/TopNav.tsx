@@ -27,7 +27,7 @@ export function TopNav() {
                 className={`block border-b-2 py-4 text-center text-base font-medium transition-colors ${
                   active
                     ? "border-neutral-900 text-neutral-900 font-semibold"
-                    : "border-transparent text-neutral-500 hover:text-neutral-700"
+                    : "border-transparent text-neutral-400 hover:text-neutral-600"
                 }`}
               >
                 {item.label}

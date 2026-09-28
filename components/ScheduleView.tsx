@@ -5,8 +5,19 @@ import Link from "next/link";
 import { ScheduleCalendar } from "@/components/ScheduleCalendar";
 import { weekdayColorClass, weekdayIndex, weekdayLabel } from "@/lib/format";
 
-type ScheduleItem = { id: string; customerName: string; startTime: string };
+type ScheduleItem = {
+  id: string;
+  customerName: string;
+  startTime: string;
+  method?: "CASH" | "CARD";
+};
 type RangeEvent = { id: string; title: string; startKey: string; endKey: string };
+
+function dotColor(method?: "CASH" | "CARD") {
+  if (method === "CASH") return "bg-green-500";
+  if (method === "CARD") return "bg-blue-500";
+  return "bg-neutral-300";
+}
 
 export function ScheduleView({
   monthKey,
@@ -27,19 +38,23 @@ export function ScheduleView({
 
   return (
     <div>
-      <div className="mb-3 flex gap-1 rounded-lg bg-neutral-100 p-1 text-sm">
+      <div className="mb-3 flex gap-1 rounded-full bg-neutral-100 p-1 text-sm">
         <button
           onClick={() => setView("calendar")}
-          className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
-            view === "calendar" ? "bg-white shadow-sm" : "text-neutral-500"
+          className={`flex-1 rounded-full py-1.5 font-semibold transition-colors ${
+            view === "calendar"
+              ? "bg-white text-neutral-900 shadow-sm"
+              : "text-neutral-400"
           }`}
         >
           캘린더
         </button>
         <button
           onClick={() => setView("list")}
-          className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
-            view === "list" ? "bg-white shadow-sm" : "text-neutral-500"
+          className={`flex-1 rounded-full py-1.5 font-semibold transition-colors ${
+            view === "list"
+              ? "bg-white text-neutral-900 shadow-sm"
+              : "text-neutral-400"
           }`}
         >
           리스트
@@ -55,9 +70,9 @@ export function ScheduleView({
           rangeEvents={rangeEvents}
         />
       ) : (
-        <div className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
+        <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
           {sortedDateKeys.length === 0 && rangeEvents.length === 0 ? (
-            <p className="p-4 text-sm text-neutral-500">
+            <p className="p-4 text-sm text-neutral-400">
               이 달에 등록된 일정이 없습니다.
             </p>
           ) : (
@@ -66,15 +81,19 @@ export function ScheduleView({
                 <Link
                   key={ev.id}
                   href={`/schedule/${ev.id}`}
-                  className="flex items-center gap-2 bg-violet-50/60 px-3 py-2 text-sm hover:bg-violet-100"
+                  className="flex items-center gap-2.5 bg-violet-50/50 px-3.5 py-2.5 text-sm transition-colors hover:bg-violet-100/60"
                 >
-                  <span className="w-[86px] shrink-0 text-violet-500">
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
+                  <span className="w-[70px] shrink-0 text-xs font-medium text-violet-500">
                     종일
                   </span>
-                  <span className="min-w-0 flex-1 truncate">{ev.title}</span>
-                  <span className="shrink-0 text-xs text-neutral-500">
+                  <span className="min-w-0 flex-1 truncate font-medium text-neutral-800">
+                    {ev.title}
+                  </span>
+                  <span className="shrink-0 text-xs text-neutral-400">
                     {ev.startKey.slice(5)}~{ev.endKey.slice(5)}
                   </span>
+                  <span className="shrink-0 text-neutral-300">›</span>
                 </Link>
               ))}
               {sortedDateKeys.flatMap((dateKey) =>
@@ -82,10 +101,13 @@ export function ScheduleView({
                   <Link
                     key={s.id}
                     href={`/schedule/${s.id}`}
-                    className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-neutral-50"
+                    className="flex items-center gap-2.5 px-3.5 py-2.5 text-sm transition-colors hover:bg-neutral-50"
                   >
                     <span
-                      className={`w-[86px] shrink-0 ${weekdayColorClass(
+                      className={`h-2 w-2 shrink-0 rounded-full ${dotColor(s.method)}`}
+                    />
+                    <span
+                      className={`w-[70px] shrink-0 text-xs font-medium ${weekdayColorClass(
                         weekdayIndex(dateKey)
                       )}`}
                     >
@@ -93,12 +115,13 @@ export function ScheduleView({
                         ? `${dateKey.slice(5)} ${weekdayLabel(dateKey)}`
                         : ""}
                     </span>
-                    <span className="min-w-0 flex-1 truncate">
+                    <span className="min-w-0 flex-1 truncate font-medium text-neutral-800">
                       {s.customerName}
                     </span>
-                    <span className="shrink-0 text-neutral-500">
+                    <span className="shrink-0 text-xs text-neutral-400">
                       {s.startTime}
                     </span>
+                    <span className="shrink-0 text-neutral-300">›</span>
                   </Link>
                 ))
               )}

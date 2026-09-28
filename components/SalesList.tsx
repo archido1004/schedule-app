@@ -24,7 +24,7 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
 
   if (entries.length === 0) {
     return (
-      <p className="rounded-lg bg-white p-4 text-sm text-neutral-500 shadow-sm">
+      <p className="rounded-2xl border border-neutral-200 bg-white p-4 text-sm text-neutral-400 shadow-sm">
         이 달에 등록된 매출이 없습니다.
       </p>
     );
@@ -35,11 +35,18 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
       {entries.map((entry) => {
         const content = (
           <>
-            <div>
+            <span
+              className={`h-2 w-2 shrink-0 rounded-full ${
+                entry.method === "CASH" ? "bg-green-500" : "bg-blue-500"
+              }`}
+            />
+            <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <span className="font-medium">{formatCurrency(entry.amount)}</span>
+                <span className="font-semibold text-neutral-900">
+                  {formatCurrency(entry.amount)}
+                </span>
                 <span
-                  className={`rounded px-2 py-0.5 text-xs ${
+                  className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
                     entry.method === "CASH"
                       ? "bg-green-100 text-green-700"
                       : "bg-blue-100 text-blue-700"
@@ -48,7 +55,7 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
                   {entry.method === "CASH" ? "현금" : "카드"}
                 </span>
               </div>
-              <p className="mt-1 text-xs text-neutral-500">
+              <p className="mt-0.5 truncate text-xs text-neutral-400">
                 {entry.date} {entry.memo ? `· ${entry.memo}` : ""}
               </p>
             </div>
@@ -57,16 +64,18 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
                 e.preventDefault();
                 handleDelete(entry.id);
               }}
-              className="text-xs text-red-600"
+              className="shrink-0 text-xs text-red-500"
             >
               삭제
             </button>
+            {entry.scheduleId && (
+              <span className="shrink-0 text-neutral-300">›</span>
+            )}
           </>
         );
 
-        const className = `flex items-center justify-between rounded-lg border-l-4 bg-white p-4 shadow-sm transition-shadow hover:shadow-md ${
-          entry.method === "CASH" ? "border-l-green-500" : "border-l-blue-500"
-        }`;
+        const className =
+          "flex items-center gap-2.5 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm transition-shadow hover:shadow-md";
 
         return entry.scheduleId ? (
           <Link key={entry.id} href={`/schedule/${entry.scheduleId}`} className={className}>

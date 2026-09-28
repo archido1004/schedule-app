@@ -71,7 +71,7 @@ export function ScheduleCalendar({
 
   return (
     <div>
-      <div className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
+      <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
         <div className="grid grid-cols-7 border-b border-neutral-200 bg-neutral-50">
           {WEEKDAY_LABELS.map((label, i) => (
             <div
@@ -167,7 +167,7 @@ export function ScheduleCalendar({
         </div>
       </div>
 
-      <div className="mt-2 flex items-center justify-between rounded-lg bg-neutral-100 px-3 py-2 text-sm">
+      <div className="mt-2 flex items-center justify-between rounded-2xl bg-neutral-100 px-3.5 py-2.5 text-sm">
         {selStart ? (
           <>
             <span className="text-neutral-600">
@@ -188,7 +188,7 @@ export function ScheduleCalendar({
                     ? `/schedule/new?date=${selStart}&endDate=${selEnd}`
                     : `/schedule/new?date=${selStart}`
                 }
-                className="rounded-md bg-neutral-900 px-3 py-1 text-xs font-medium text-white"
+                className="rounded-full bg-neutral-900 px-3.5 py-1.5 text-xs font-semibold text-white"
               >
                 {hasRange ? "이 기간으로 등록" : "이 날짜로 등록"}
               </Link>

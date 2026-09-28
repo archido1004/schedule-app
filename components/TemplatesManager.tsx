@@ -68,14 +68,14 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
   return (
     <div className="flex flex-col gap-3">
       {templates.length === 0 && !adding && (
-        <p className="rounded-lg bg-white p-4 text-sm text-neutral-500 shadow-sm">
+        <p className="rounded-2xl border border-neutral-200 bg-white p-4 text-sm text-neutral-400 shadow-sm">
           등록된 문구가 없습니다.
         </p>
       )}
 
       {templates.map((t) =>
         editingId === t.id ? (
-          <div key={t.id} className="rounded-lg bg-white p-4 shadow-sm">
+          <div key={t.id} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
             <input
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
@@ -104,7 +104,7 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
             </div>
           </div>
         ) : (
-          <div key={t.id} className="rounded-lg bg-white p-4 shadow-sm">
+          <div key={t.id} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="font-medium">{t.title}</p>
@@ -117,7 +117,7 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
               <CopyButton text={t.content} />
               <button
                 onClick={() => startEdit(t)}
-                className="rounded-md bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-200"
+                className="rounded-full bg-neutral-100 px-3.5 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-200"
               >
                 수정
               </button>
@@ -133,7 +133,7 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
       )}
 
       {adding ? (
-        <form onSubmit={handleAdd} className="rounded-lg bg-white p-4 shadow-sm">
+        <form onSubmit={handleAdd} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
           <input
             placeholder="제목 (예: 예약 확인 안내)"
             value={title}
@@ -169,7 +169,7 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
       ) : (
         <button
           onClick={() => setAdding(true)}
-          className="rounded-lg border border-dashed border-neutral-300 p-3 text-center text-sm text-neutral-600"
+          className="rounded-2xl border border-dashed border-neutral-300 p-3 text-center text-sm font-medium text-neutral-500 transition-colors hover:border-neutral-400 hover:text-neutral-700"
         >
           + 자주 쓰는 문구 추가
         </button>

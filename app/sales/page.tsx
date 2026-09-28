@@ -36,27 +36,41 @@ export default async function SalesPage({
   return (
     <main className="mx-auto max-w-md p-4 pt-6">
       <div className="flex items-center justify-between">
-        <Link href={`/sales?month=${prevMonth}`} className="px-2 py-1 text-sm text-neutral-500">
+        <Link
+          href={`/sales?month=${prevMonth}`}
+          className="rounded-full px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+        >
           ← 이전달
         </Link>
-        <h1 className="text-lg font-semibold">{monthKey}</h1>
-        <Link href={`/sales?month=${nextMonth}`} className="px-2 py-1 text-sm text-neutral-500">
+        <h1 className="text-xl font-bold tracking-tight">{monthKey}</h1>
+        <Link
+          href={`/sales?month=${nextMonth}`}
+          className="rounded-full px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+        >
           다음달 →
         </Link>
       </div>
 
       <section className="mt-4 grid grid-cols-2 gap-3">
-        <div className="rounded-lg bg-white p-4 shadow-sm">
-          <p className="text-sm text-neutral-500">현금 합계</p>
-          <p className="mt-1 text-xl font-semibold">{formatCurrency(totals.cash)}</p>
+        <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+          <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400">
+            <span className="h-2 w-2 rounded-full bg-green-500" /> 현금 합계
+          </p>
+          <p className="mt-1 text-xl font-bold text-neutral-900">
+            {formatCurrency(totals.cash)}
+          </p>
         </div>
-        <div className="rounded-lg bg-white p-4 shadow-sm">
-          <p className="text-sm text-neutral-500">카드 합계</p>
-          <p className="mt-1 text-xl font-semibold">{formatCurrency(totals.card)}</p>
+        <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+          <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400">
+            <span className="h-2 w-2 rounded-full bg-blue-500" /> 카드 합계
+          </p>
+          <p className="mt-1 text-xl font-bold text-neutral-900">
+            {formatCurrency(totals.card)}
+          </p>
         </div>
       </section>
 
-      <p className="mt-4 text-xs text-neutral-500">
+      <p className="mt-4 text-xs text-neutral-400">
         매출은{" "}
         <Link href="/schedule/new" className="underline">
           일정 등록

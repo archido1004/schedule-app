@@ -123,7 +123,7 @@ export default async function SchedulePage({
 
       <NaverBookingButton href={naverBookingUrl()} />
 
-      <hr className="mt-4 border-neutral-200" />
+      <div className="mt-4 h-px bg-neutral-300" />
 
       <div className="mt-4">
         <ScheduleView

@@ -11,8 +11,8 @@ import {
 export const dynamic = "force-dynamic";
 
 function dotColor(method?: "CASH" | "CARD") {
-  if (method === "CASH") return "bg-green-500";
-  if (method === "CARD") return "bg-blue-500";
+  if (method === "CASH") return "bg-blue-500";
+  if (method === "CARD") return "bg-green-500";
   return "bg-neutral-300";
 }
 
@@ -77,13 +77,13 @@ export default async function DashboardPage() {
               <Link
                 key={ev.id}
                 href={`/schedule/${ev.id}`}
-                className="flex items-center gap-2.5 bg-violet-50/50 px-3.5 py-2.5 text-sm transition-colors hover:bg-violet-100/60"
+                className="flex items-center gap-2.5 bg-blue-50/50 px-3.5 py-2.5 text-sm transition-colors hover:bg-blue-100/60"
               >
-                <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
+                <span className="h-2 w-2 shrink-0 rounded-full bg-blue-400" />
                 <span className="min-w-0 flex-1 truncate font-medium text-neutral-800">
                   {ev.customerName}
                 </span>
-                <span className="shrink-0 text-xs font-medium text-violet-500">
+                <span className="shrink-0 text-xs font-medium text-blue-500">
                   종일
                 </span>
                 <span className="shrink-0 text-neutral-300">›</span>
@@ -133,7 +133,7 @@ export default async function DashboardPage() {
       <section className="mt-3 grid grid-cols-2 gap-3">
         <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
           <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400">
-            <span className="h-2 w-2 rounded-full bg-green-500" /> 현금
+            <span className="h-2 w-2 rounded-full bg-blue-500" /> 현금
           </p>
           <p className="mt-1 text-xl font-bold text-neutral-900">
             {formatCurrency(totals.cash)}
@@ -141,7 +141,7 @@ export default async function DashboardPage() {
         </div>
         <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
           <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400">
-            <span className="h-2 w-2 rounded-full bg-blue-500" /> 카드
+            <span className="h-2 w-2 rounded-full bg-green-500" /> 카드
           </p>
           <p className="mt-1 text-xl font-bold text-neutral-900">
             {formatCurrency(totals.card)}

@@ -110,7 +110,7 @@ export function ScheduleCalendar({
                 key={dateKey}
                 onClick={() => handleDayClick(dateKey)}
                 className={`flex min-h-[76px] cursor-pointer flex-col gap-0.5 border-b border-r border-neutral-100 p-1 last:border-r-0 ${
-                  isSelected ? "bg-indigo-50" : ""
+                  isSelected ? "bg-blue-50" : ""
                 }`}
               >
                 <span
@@ -130,7 +130,7 @@ export function ScheduleCalendar({
                       key={ev.id}
                       href={`/schedule/${ev.id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className={`block truncate bg-violet-200 px-1 py-0.5 text-[10px] text-violet-800 hover:bg-violet-300 ${
+                      className={`block truncate bg-blue-200 px-1 py-0.5 text-[10px] text-blue-800 hover:bg-blue-300 ${
                         roundLeft ? "rounded-l" : "-ml-1"
                       } ${roundRight ? "rounded-r" : "-mr-1"}`}
                     >
@@ -145,7 +145,7 @@ export function ScheduleCalendar({
                       key={s.id}
                       href={`/schedule/${s.id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="truncate rounded bg-indigo-50 px-1 py-0.5 text-[10px] text-indigo-700 hover:bg-indigo-100"
+                      className="truncate rounded bg-blue-50 px-1 py-0.5 text-[10px] text-blue-700 hover:bg-blue-100"
                     >
                       {s.customerName}
                     </Link>

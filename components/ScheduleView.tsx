@@ -14,8 +14,8 @@ type ScheduleItem = {
 type RangeEvent = { id: string; title: string; startKey: string; endKey: string };
 
 function dotColor(method?: "CASH" | "CARD") {
-  if (method === "CASH") return "bg-green-500";
-  if (method === "CARD") return "bg-blue-500";
+  if (method === "CASH") return "bg-blue-500";
+  if (method === "CARD") return "bg-green-500";
   return "bg-neutral-300";
 }
 
@@ -34,7 +34,7 @@ export function ScheduleView({
   sortedDateKeys: string[];
   rangeEvents: RangeEvent[];
 }) {
-  const [view, setView] = useState<"calendar" | "list">("calendar");
+  const [view, setView] = useState<"calendar" | "list">("list");
 
   return (
     <div>
@@ -81,10 +81,10 @@ export function ScheduleView({
                 <Link
                   key={ev.id}
                   href={`/schedule/${ev.id}`}
-                  className="flex items-center gap-2.5 bg-violet-50/50 px-3.5 py-2.5 text-sm transition-colors hover:bg-violet-100/60"
+                  className="flex items-center gap-2.5 bg-blue-50/50 px-3.5 py-2.5 text-sm transition-colors hover:bg-blue-100/60"
                 >
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
-                  <span className="w-[70px] shrink-0 text-xs font-medium text-violet-500">
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-blue-400" />
+                  <span className="w-[70px] shrink-0 text-xs font-medium text-blue-500">
                     종일
                   </span>
                   <span className="min-w-0 flex-1 truncate font-medium text-neutral-800">

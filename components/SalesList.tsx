@@ -37,7 +37,7 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
           <>
             <span
               className={`h-2 w-2 shrink-0 rounded-full ${
-                entry.method === "CASH" ? "bg-green-500" : "bg-blue-500"
+                entry.method === "CASH" ? "bg-blue-500" : "bg-green-500"
               }`}
             />
             <div className="min-w-0 flex-1">
@@ -48,8 +48,8 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
                 <span
                   className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
                     entry.method === "CASH"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-blue-100 text-blue-700"
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-green-100 text-green-700"
                   }`}
                 >
                   {entry.method === "CASH" ? "현금" : "카드"}

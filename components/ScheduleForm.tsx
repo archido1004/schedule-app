@@ -153,7 +153,7 @@ export function ScheduleForm({
         <button
           type="button"
           onClick={toggleRange}
-          className="text-xs text-indigo-600 underline"
+          className="text-xs text-blue-600 underline"
         >
           {isRange ? "하루 일정으로 변경" : "여러 날짜(기간)로 등록"}
         </button>
@@ -250,7 +250,7 @@ export function ScheduleForm({
             onClick={() => setSalesMethod("CASH")}
             className={`rounded-lg border px-3 py-2 text-sm font-medium ${
               salesMethod === "CASH"
-                ? "border-green-600 bg-green-50 text-green-700"
+                ? "border-blue-600 bg-blue-50 text-blue-700"
                 : "border-neutral-300 text-neutral-500"
             }`}
           >
@@ -261,7 +261,7 @@ export function ScheduleForm({
             onClick={() => setSalesMethod("CARD")}
             className={`rounded-lg border px-3 py-2 text-sm font-medium ${
               salesMethod === "CARD"
-                ? "border-blue-600 bg-blue-50 text-blue-700"
+                ? "border-green-600 bg-green-50 text-green-700"
                 : "border-neutral-300 text-neutral-500"
             }`}
           >

@@ -7,6 +7,7 @@ import {
   todayKeyKST,
 } from "@/lib/format";
 import { ScheduleView } from "@/components/ScheduleView";
+import { NaverBookingButton } from "@/components/NaverBookingButton";
 
 const NAVER_BOOKING_BIZ_ID = "712538";
 
@@ -107,28 +108,20 @@ export default async function SchedulePage({
       <div className="flex items-center justify-between">
         <Link
           href={`/schedule?month=${prevMonth}`}
-          className="rounded-full px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200"
         >
           ← 이전달
         </Link>
         <h1 className="text-xl font-bold tracking-tight">{monthKey}</h1>
         <Link
           href={`/schedule?month=${nextMonth}`}
-          className="rounded-full px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200"
         >
           다음달 →
         </Link>
       </div>
 
-      <a
-        href={naverBookingUrl()}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-4 flex items-center justify-between rounded-2xl bg-green-50 px-4 py-3 text-sm font-semibold text-green-700 transition-colors hover:bg-green-100"
-      >
-        네이버예약 바로가기
-        <span aria-hidden>→</span>
-      </a>
+      <NaverBookingButton href={naverBookingUrl()} />
 
       <div className="mt-4">
         <ScheduleView

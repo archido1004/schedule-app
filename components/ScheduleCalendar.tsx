@@ -10,9 +10,9 @@ type RangeEvent = { id: string; title: string; startKey: string; endKey: string 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
 function weekdayColor(index: number) {
-  if (index === 0) return "text-red-500";
-  if (index === 6) return "text-blue-500";
-  return "text-neutral-500";
+  if (index === 0) return "text-red-500 dark:text-red-400";
+  if (index === 6) return "text-blue-500 dark:text-blue-400";
+  return "text-neutral-500 dark:text-neutral-400";
 }
 
 export function ScheduleCalendar({
@@ -71,8 +71,8 @@ export function ScheduleCalendar({
 
   return (
     <div>
-      <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
-        <div className="grid grid-cols-7 border-b border-neutral-200 bg-neutral-50">
+      <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="grid grid-cols-7 border-b border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900">
           {WEEKDAY_LABELS.map((label, i) => (
             <div
               key={label}
@@ -88,7 +88,7 @@ export function ScheduleCalendar({
               return (
                 <div
                   key={`empty-${i}`}
-                  className="min-h-[76px] border-b border-r border-neutral-100 bg-neutral-50/50"
+                  className="min-h-[76px] border-b border-r border-neutral-100 bg-neutral-50/50 dark:border-neutral-800"
                 />
               );
             }
@@ -109,14 +109,14 @@ export function ScheduleCalendar({
               <div
                 key={dateKey}
                 onClick={() => handleDayClick(dateKey)}
-                className={`flex min-h-[76px] cursor-pointer flex-col gap-0.5 border-b border-r border-neutral-100 p-1 last:border-r-0 ${
-                  isSelected ? "bg-blue-50" : ""
+                className={`flex min-h-[76px] cursor-pointer flex-col gap-0.5 border-b border-r border-neutral-100 p-1 last:border-r-0 dark:border-neutral-800 ${
+                  isSelected ? "bg-blue-50 dark:bg-blue-950/40" : ""
                 }`}
               >
                 <span
                   className={`inline-flex h-5 w-5 items-center justify-center self-start rounded-full text-xs ${weekdayColor(
                     weekday
-                  )} ${isToday ? "bg-neutral-900 !text-white font-semibold" : ""}`}
+                  )} ${isToday ? "bg-neutral-900 !text-white font-semibold dark:bg-neutral-100 dark:!text-neutral-900" : ""}`}
                 >
                   {day}
                 </span>
@@ -130,7 +130,7 @@ export function ScheduleCalendar({
                       key={ev.id}
                       href={`/schedule/${ev.id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className={`block truncate bg-blue-200 px-1 py-0.5 text-[10px] text-blue-800 hover:bg-blue-300 ${
+                      className={`block truncate bg-blue-200 px-1 py-0.5 text-[10px] text-blue-800 hover:bg-blue-300 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 ${
                         roundLeft ? "rounded-l" : "-ml-1"
                       } ${roundRight ? "rounded-r" : "-mr-1"}`}
                     >
@@ -145,19 +145,19 @@ export function ScheduleCalendar({
                       key={s.id}
                       href={`/schedule/${s.id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="truncate rounded bg-blue-50 px-1 py-0.5 text-[10px] text-blue-700 hover:bg-blue-100"
+                      className="truncate rounded bg-blue-50 px-1 py-0.5 text-[10px] text-blue-700 hover:bg-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:hover:bg-blue-900"
                     >
                       {s.customerName}
                     </Link>
                   ))}
                   {items.length > 2 && (
-                    <span className="px-1 text-[10px] text-neutral-400">
+                    <span className="px-1 text-[10px] text-neutral-400 dark:text-neutral-500">
                       +{items.length - 2}건 더
                     </span>
                   )}
                 </div>
                 {revenue ? (
-                  <span className="mt-auto truncate px-1 text-[10px] font-medium text-green-600">
+                  <span className="mt-auto truncate px-1 text-[10px] font-medium text-green-600 dark:text-green-400">
                     {formatCurrency(revenue)}
                   </span>
                 ) : null}
@@ -167,10 +167,10 @@ export function ScheduleCalendar({
         </div>
       </div>
 
-      <div className="mt-2 flex items-center justify-between rounded-2xl bg-neutral-100 px-3.5 py-2.5 text-sm">
+      <div className="mt-2 flex items-center justify-between rounded-2xl bg-neutral-100 px-3.5 py-2.5 text-sm dark:bg-neutral-800">
         {selStart ? (
           <>
-            <span className="text-neutral-600">
+            <span className="text-neutral-600 dark:text-neutral-400">
               {hasRange
                 ? `${selStart} ~ ${selEnd} (${selectedDays}일 선택됨)`
                 : `${selStart} 선택됨`}
@@ -178,7 +178,7 @@ export function ScheduleCalendar({
             <div className="flex gap-2">
               <button
                 onClick={clearSelection}
-                className="text-xs text-neutral-500 underline"
+                className="text-xs text-neutral-500 underline dark:text-neutral-400"
               >
                 취소
               </button>
@@ -195,7 +195,7 @@ export function ScheduleCalendar({
             </div>
           </>
         ) : (
-          <span className="text-xs text-neutral-500">
+          <span className="text-xs text-neutral-500 dark:text-neutral-400">
             날짜를 눌러서 선택하세요. 두 날짜를 선택하면 기간(종일) 일정으로
             등록할 수 있어요.
           </span>

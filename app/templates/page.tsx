@@ -11,7 +11,7 @@ export default async function TemplatesPage() {
   return (
     <main className="mx-auto max-w-md p-4 pt-6">
       <h1 className="mb-1 text-lg font-semibold">자주 쓰는 문구</h1>
-      <p className="mb-4 text-sm text-neutral-500">
+      <p className="mb-4 text-sm text-neutral-500 dark:text-neutral-400">
         복사 버튼을 누르고 카카오톡 대화창에 붙여넣으세요.
       </p>
       <TemplatesManager templates={templates} />

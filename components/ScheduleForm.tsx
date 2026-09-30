@@ -147,13 +147,13 @@ export function ScheduleForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-neutral-700">
+        <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
           {isRange ? "기간 일정 (종일)" : "날짜/시간"}
         </p>
         <button
           type="button"
           onClick={toggleRange}
-          className="text-xs text-blue-600 underline"
+          className="text-xs text-blue-600 underline dark:text-blue-400"
         >
           {isRange ? "하루 일정으로 변경" : "여러 날짜(기간)로 등록"}
         </button>
@@ -166,7 +166,7 @@ export function ScheduleForm({
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-2"
+            className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             required
           />
         </label>
@@ -178,7 +178,7 @@ export function ScheduleForm({
               value={endDate}
               min={date}
               onChange={(e) => setEndDate(e.target.value)}
-              className="rounded-lg border border-neutral-300 px-3 py-2"
+              className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
               required
             />
           </label>
@@ -189,7 +189,7 @@ export function ScheduleForm({
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="rounded-lg border border-neutral-300 px-3 py-2"
+              className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
               required
             />
           </label>
@@ -202,7 +202,7 @@ export function ScheduleForm({
           type="text"
           value={customerName}
           onChange={(e) => setCustomerName(e.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2"
+          className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
           required
         />
       </label>
@@ -214,25 +214,25 @@ export function ScheduleForm({
           placeholder="010-0000-0000"
           value={customerPhone}
           onChange={(e) => setCustomerPhone(e.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2"
+          className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
         />
       </label>
 
       {customerPhone && (
-        <div className="flex items-center justify-between rounded-lg bg-neutral-100 p-3 text-sm">
+        <div className="flex items-center justify-between rounded-lg bg-neutral-100 p-3 text-sm dark:bg-neutral-800">
           <span>카카오톡 채널 추가 안내 보내기</span>
           {kakaoChannelUrl ? (
             <CopyButton text={buildChannelInviteMessage(kakaoChannelUrl)} />
           ) : (
-            <span className="text-xs text-neutral-500">
+            <span className="text-xs text-neutral-500 dark:text-neutral-400">
               설정에서 채널 링크를 먼저 등록하세요
             </span>
           )}
         </div>
       )}
 
-      <div className="rounded-lg border border-neutral-200 p-3">
-        <p className="mb-2 text-sm font-medium text-neutral-700">
+      <div className="rounded-lg border border-neutral-200 p-3 dark:border-neutral-800">
+        <p className="mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">
           매출 (선택)
         </p>
         <div className="flex gap-2">
@@ -242,7 +242,7 @@ export function ScheduleForm({
             placeholder="금액"
             value={salesAmount}
             onChange={(e) => setSalesAmount(e.target.value)}
-            className="flex-1 rounded-lg border border-neutral-300 px-3 py-2"
+            className="flex-1 rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             min={0}
           />
           <button
@@ -250,8 +250,8 @@ export function ScheduleForm({
             onClick={() => setSalesMethod("CASH")}
             className={`rounded-lg border px-3 py-2 text-sm font-medium ${
               salesMethod === "CASH"
-                ? "border-blue-600 bg-blue-50 text-blue-700"
-                : "border-neutral-300 text-neutral-500"
+                ? "border-blue-600 bg-blue-50 text-blue-700 dark:border-blue-500 dark:bg-blue-950/40 dark:text-blue-300"
+                : "border-neutral-300 text-neutral-500 dark:border-neutral-700 dark:text-neutral-400"
             }`}
           >
             현금
@@ -261,8 +261,8 @@ export function ScheduleForm({
             onClick={() => setSalesMethod("CARD")}
             className={`rounded-lg border px-3 py-2 text-sm font-medium ${
               salesMethod === "CARD"
-                ? "border-green-600 bg-green-50 text-green-700"
-                : "border-neutral-300 text-neutral-500"
+                ? "border-green-600 bg-green-50 text-green-700 dark:border-green-500 dark:bg-green-950/40 dark:text-green-300"
+                : "border-neutral-300 text-neutral-500 dark:border-neutral-700 dark:text-neutral-400"
             }`}
           >
             카드
@@ -275,12 +275,12 @@ export function ScheduleForm({
         <textarea
           value={memo}
           onChange={(e) => setMemo(e.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2"
+          className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
           rows={3}
         />
       </label>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       <button
         type="submit"
@@ -294,7 +294,7 @@ export function ScheduleForm({
         <button
           type="button"
           onClick={handleDelete}
-          className="rounded-lg border border-red-200 px-4 py-3 text-sm font-medium text-red-600"
+          className="rounded-lg border border-red-200 px-4 py-3 text-sm font-medium text-red-600 dark:border-red-900 dark:text-red-400"
         >
           삭제
         </button>

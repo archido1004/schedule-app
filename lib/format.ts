@@ -47,9 +47,9 @@ export function weekdayIndex(dateKey: string): number {
 }
 
 export function weekdayColorClass(weekday: number): string {
-  if (weekday === 0) return "text-red-500";
-  if (weekday === 6) return "text-blue-500";
-  return "text-neutral-500";
+  if (weekday === 0) return "text-red-500 dark:text-red-400";
+  if (weekday === 6) return "text-blue-500 dark:text-blue-400";
+  return "text-neutral-500 dark:text-neutral-400";
 }
 
 export function dateRangeKeys(startKey: string, endKey: string): string[] {

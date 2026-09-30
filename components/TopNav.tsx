@@ -16,7 +16,7 @@ export function TopNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="sticky top-0 z-10 border-b border-neutral-200 bg-white/95 backdrop-blur">
+    <nav className="sticky top-0 z-10 border-b border-neutral-200 bg-white/95 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/95">
       <ul className="mx-auto flex max-w-md">
         {ITEMS.map(({ href, label, Icon }) => {
           const active =
@@ -27,14 +27,14 @@ export function TopNav() {
                 href={href}
                 className={`flex flex-col items-center gap-0.5 border-b-2 py-2.5 text-center text-xs font-medium transition-colors ${
                   active
-                    ? "border-neutral-900 text-neutral-900 font-semibold"
-                    : "border-transparent text-neutral-400 hover:text-neutral-600"
+                    ? "border-neutral-900 text-neutral-900 font-semibold dark:border-neutral-100 dark:text-neutral-100"
+                    : "border-transparent text-neutral-400 hover:text-neutral-600 dark:text-neutral-500 dark:hover:text-neutral-300"
                 }`}
               >
                 <Icon
                   size={20}
                   strokeWidth={active ? 2.25 : 1.75}
-                  className={active ? "text-blue-600" : ""}
+                  className={active ? "text-blue-600 dark:text-blue-400" : ""}
                 />
                 {label}
               </Link>

@@ -68,24 +68,24 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
   return (
     <div className="flex flex-col gap-3">
       {templates.length === 0 && !adding && (
-        <p className="rounded-2xl border border-neutral-200 bg-white p-4 text-sm text-neutral-400 shadow-sm">
+        <p className="rounded-2xl border border-neutral-200 bg-white p-4 text-sm text-neutral-400 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-500">
           등록된 문구가 없습니다.
         </p>
       )}
 
       {templates.map((t) =>
         editingId === t.id ? (
-          <div key={t.id} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+          <div key={t.id} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
             <input
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
-              className="mb-2 w-full rounded-md border border-neutral-300 px-2 py-1 text-sm font-medium"
+              className="mb-2 w-full rounded-md border border-neutral-300 bg-white px-2 py-1 text-sm font-medium dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             />
             <textarea
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
               rows={3}
-              className="w-full rounded-md border border-neutral-300 px-2 py-1 text-sm"
+              className="w-full rounded-md border border-neutral-300 bg-white px-2 py-1 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             />
             <div className="mt-2 flex gap-2">
               <button
@@ -97,18 +97,18 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
               </button>
               <button
                 onClick={() => setEditingId(null)}
-                className="rounded-md bg-neutral-100 px-3 py-1.5 text-xs"
+                className="rounded-md bg-neutral-100 px-3 py-1.5 text-xs dark:bg-neutral-800"
               >
                 취소
               </button>
             </div>
           </div>
         ) : (
-          <div key={t.id} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+          <div key={t.id} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="font-medium">{t.title}</p>
-                <p className="mt-1 whitespace-pre-wrap text-sm text-neutral-600">
+                <p className="mt-1 whitespace-pre-wrap text-sm text-neutral-600 dark:text-neutral-400">
                   {t.content}
                 </p>
               </div>
@@ -117,13 +117,13 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
               <CopyButton text={t.content} />
               <button
                 onClick={() => startEdit(t)}
-                className="rounded-full bg-neutral-100 px-3.5 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-200"
+                className="rounded-full bg-neutral-100 px-3.5 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700"
               >
                 수정
               </button>
               <button
                 onClick={() => handleDelete(t.id)}
-                className="rounded-md px-3 py-2 text-sm text-red-600"
+                className="rounded-md px-3 py-2 text-sm text-red-600 dark:text-red-400"
               >
                 삭제
               </button>
@@ -133,12 +133,12 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
       )}
 
       {adding ? (
-        <form onSubmit={handleAdd} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+        <form onSubmit={handleAdd} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
           <input
             placeholder="제목 (예: 예약 확인 안내)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="mb-2 w-full rounded-md border border-neutral-300 px-2 py-1.5 text-sm"
+            className="mb-2 w-full rounded-md border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             required
           />
           <textarea
@@ -146,7 +146,7 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-neutral-300 px-2 py-1.5 text-sm"
+            className="w-full rounded-md border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             required
           />
           <div className="mt-2 flex gap-2">
@@ -160,7 +160,7 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
             <button
               type="button"
               onClick={() => setAdding(false)}
-              className="rounded-md bg-neutral-100 px-3 py-1.5 text-xs"
+              className="rounded-md bg-neutral-100 px-3 py-1.5 text-xs dark:bg-neutral-800"
             >
               취소
             </button>
@@ -169,7 +169,7 @@ export function TemplatesManager({ templates }: { templates: Template[] }) {
       ) : (
         <button
           onClick={() => setAdding(true)}
-          className="rounded-2xl border border-dashed border-neutral-300 p-3 text-center text-sm font-medium text-neutral-500 transition-colors hover:border-neutral-400 hover:text-neutral-700"
+          className="rounded-2xl border border-dashed border-neutral-300 p-3 text-center text-sm font-medium text-neutral-500 transition-colors hover:border-neutral-400 hover:text-neutral-700 dark:border-neutral-700 dark:text-neutral-400 dark:hover:border-neutral-600 dark:hover:text-neutral-300"
         >
           + 자주 쓰는 문구 추가
         </button>

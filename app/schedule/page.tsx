@@ -108,14 +108,14 @@ export default async function SchedulePage({
       <div className="flex items-center justify-between">
         <Link
           href={`/schedule?month=${prevMonth}`}
-          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200"
+          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
         >
           ← 이전달
         </Link>
         <h1 className="text-xl font-bold tracking-tight">{monthKey}</h1>
         <Link
           href={`/schedule?month=${nextMonth}`}
-          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200"
+          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
         >
           다음달 →
         </Link>
@@ -123,7 +123,7 @@ export default async function SchedulePage({
 
       <NaverBookingButton href={naverBookingUrl()} />
 
-      <div className="mt-4 h-px bg-neutral-300" />
+      <div className="mt-4 h-px bg-neutral-300 dark:bg-neutral-600" />
 
       <div className="mt-4">
         <ScheduleView

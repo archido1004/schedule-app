@@ -14,7 +14,7 @@ export default async function SetupPage() {
     <main className="mx-auto flex min-h-dvh max-w-sm flex-col justify-center gap-6 p-6">
       <div>
         <h1 className="text-xl font-semibold">처음 오셨네요</h1>
-        <p className="mt-1 text-sm text-neutral-500">
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
           앞으로 로그인에 사용할 PIN 번호를 설정하세요 (숫자 4~8자리).
         </p>
       </div>

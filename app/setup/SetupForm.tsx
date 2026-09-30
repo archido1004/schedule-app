@@ -46,7 +46,7 @@ export function SetupForm() {
         placeholder="새 PIN"
         value={pin}
         onChange={(e) => setPin(e.target.value)}
-        className="rounded-lg border border-neutral-300 px-4 py-3 text-lg tracking-widest"
+        className="rounded-lg border border-neutral-300 bg-white px-4 py-3 text-lg tracking-widest dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
         required
       />
       <input
@@ -55,10 +55,10 @@ export function SetupForm() {
         placeholder="PIN 확인"
         value={confirmPin}
         onChange={(e) => setConfirmPin(e.target.value)}
-        className="rounded-lg border border-neutral-300 px-4 py-3 text-lg tracking-widest"
+        className="rounded-lg border border-neutral-300 bg-white px-4 py-3 text-lg tracking-widest dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
         required
       />
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
       <button
         type="submit"
         disabled={loading}

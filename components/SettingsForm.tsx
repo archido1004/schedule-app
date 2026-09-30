@@ -70,10 +70,10 @@ export function SettingsForm({
   return (
     <div className="flex flex-col gap-8">
       <section>
-        <h2 className="mb-2 text-sm font-semibold text-neutral-700">
+        <h2 className="mb-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
           카카오톡 채널 링크
         </h2>
-        <p className="mb-2 text-xs text-neutral-500">
+        <p className="mb-2 text-xs text-neutral-500 dark:text-neutral-400">
           내 카카오톡 채널의 &quot;친구 추가&quot; 링크(pf.kakao.com/...)를
           등록하면, 일정에 예약자 연락처를 입력할 때 안내 문구를 바로
           복사해서 보낼 수 있어요.
@@ -84,7 +84,7 @@ export function SettingsForm({
             placeholder="https://pf.kakao.com/_xxxxxx/friend"
             value={kakaoChannelUrl}
             onChange={(e) => setKakaoChannelUrl(e.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+            className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
           />
           <button
             type="submit"
@@ -94,13 +94,13 @@ export function SettingsForm({
             {channelLoading ? "저장 중..." : "저장"}
           </button>
           {channelSaved && (
-            <p className="text-xs text-green-600">저장되었습니다.</p>
+            <p className="text-xs text-green-600 dark:text-green-400">저장되었습니다.</p>
           )}
         </form>
       </section>
 
       <section>
-        <h2 className="mb-2 text-sm font-semibold text-neutral-700">
+        <h2 className="mb-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
           PIN 변경
         </h2>
         <form onSubmit={handleChangePin} className="flex flex-col gap-2">
@@ -110,7 +110,7 @@ export function SettingsForm({
             placeholder="현재 PIN"
             value={currentPin}
             onChange={(e) => setCurrentPin(e.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+            className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             required
           />
           <input
@@ -119,12 +119,12 @@ export function SettingsForm({
             placeholder="새 PIN (4~8자리 숫자)"
             value={newPin}
             onChange={(e) => setNewPin(e.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+            className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             required
           />
-          {pinError && <p className="text-xs text-red-600">{pinError}</p>}
+          {pinError && <p className="text-xs text-red-600 dark:text-red-400">{pinError}</p>}
           {pinSaved && (
-            <p className="text-xs text-green-600">PIN이 변경되었습니다.</p>
+            <p className="text-xs text-green-600 dark:text-green-400">PIN이 변경되었습니다.</p>
           )}
           <button
             type="submit"
@@ -138,7 +138,7 @@ export function SettingsForm({
 
       <button
         onClick={handleLogout}
-        className="rounded-lg border border-neutral-300 px-4 py-2 text-sm text-neutral-600"
+        className="rounded-lg border border-neutral-300 px-4 py-2 text-sm text-neutral-600 dark:border-neutral-700 dark:text-neutral-400"
       >
         로그아웃
       </button>

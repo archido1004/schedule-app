@@ -88,7 +88,7 @@ export function ScheduleCalendar({
               return (
                 <div
                   key={`empty-${i}`}
-                  className="min-h-[76px] border-b border-r border-neutral-100 bg-neutral-50/50 dark:border-neutral-800"
+                  className="min-h-[76px] border-b border-r border-neutral-100 bg-neutral-50/50 dark:border-neutral-800 dark:bg-black/20"
                 />
               );
             }

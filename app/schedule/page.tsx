@@ -6,6 +6,7 @@ import {
   formatDateKey,
   todayKeyKST,
 } from "@/lib/format";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScheduleView } from "@/components/ScheduleView";
 import { NaverBookingButton } from "@/components/NaverBookingButton";
 
@@ -108,16 +109,22 @@ export default async function SchedulePage({
       <div className="flex items-center justify-between">
         <Link
           href={`/schedule?month=${prevMonth}`}
-          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+          aria-label="이전달"
+          className="flex items-center gap-1 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm font-semibold text-neutral-700 shadow-sm transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
         >
-          ← 이전달
+          <ChevronLeft size={16} strokeWidth={2.5} />
+          이전달
         </Link>
-        <h1 className="text-xl font-bold tracking-tight">{monthKey}</h1>
+        <h1 className="text-xl font-bold tracking-tight dark:text-neutral-100">
+          {monthKey}
+        </h1>
         <Link
           href={`/schedule?month=${nextMonth}`}
-          className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+          aria-label="다음달"
+          className="flex items-center gap-1 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm font-semibold text-neutral-700 shadow-sm transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
         >
-          다음달 →
+          다음달
+          <ChevronRight size={16} strokeWidth={2.5} />
         </Link>
       </div>
 

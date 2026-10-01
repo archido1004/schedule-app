@@ -19,8 +19,10 @@ function dotColor(method?: "CASH" | "CARD") {
 export default async function DashboardPage() {
   const todayKey = todayKeyKST();
   const todayDate = dateKeyToUTCDate(todayKey);
-  const tomorrowDate = new Date(todayDate);
-  tomorrowDate.setUTCDate(tomorrowDate.getUTCDate() + 1);
+
+  const monthStart = dateKeyToUTCDate(`${currentMonthKey()}-01`);
+  const monthEnd = new Date(monthStart);
+  monthEnd.setUTCMonth(monthEnd.getUTCMonth() + 1);
 
   const [todaySchedules, todayRangeEvents, monthEntries] = await Promise.all([
     prisma.schedule.findMany({
@@ -32,10 +34,7 @@ export default async function DashboardPage() {
     }),
     prisma.salesEntry.findMany({
       where: {
-        date: {
-          gte: dateKeyToUTCDate(`${currentMonthKey()}-01`),
-          lt: tomorrowDate,
-        },
+        date: { gte: monthStart, lt: monthEnd },
       },
     }),
   ]);

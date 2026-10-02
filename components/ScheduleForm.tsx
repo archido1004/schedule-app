@@ -22,6 +22,9 @@ type SalesEntry = {
   method: "CASH" | "CARD";
 };
 
+const HOUR_OPTIONS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
+const MINUTE_OPTIONS = ["00", "30"];
+
 export function ScheduleForm({
   schedule,
   initialDate,
@@ -46,7 +49,7 @@ export function ScheduleForm({
     Boolean(schedule?.endDate) ||
       Boolean(initialEndDate && initialEndDate !== initialDate)
   );
-  const [startTime, setStartTime] = useState(schedule?.startTime ?? "");
+  const [startTime, setStartTime] = useState(schedule?.startTime ?? "09:00");
   const [customerName, setCustomerName] = useState(schedule?.customerName ?? "");
   const [customerPhone, setCustomerPhone] = useState(schedule?.customerPhone ?? "");
   const [memo, setMemo] = useState(schedule?.memo ?? "");
@@ -185,14 +188,40 @@ export function ScheduleForm({
         ) : (
           <label className="flex flex-1 flex-col gap-1 text-sm">
             시간
-            <input
-              type="time"
-              step={1800}
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
-              required
-            />
+            <div className="flex gap-2">
+              <select
+                value={startTime.split(":")[0] ?? "09"}
+                onChange={(e) =>
+                  setStartTime(
+                    `${e.target.value}:${startTime.split(":")[1] ?? "00"}`
+                  )
+                }
+                className="flex-1 rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
+                required
+              >
+                {HOUR_OPTIONS.map((h) => (
+                  <option key={h} value={h}>
+                    {h}시
+                  </option>
+                ))}
+              </select>
+              <select
+                value={startTime.split(":")[1] ?? "00"}
+                onChange={(e) =>
+                  setStartTime(
+                    `${startTime.split(":")[0] ?? "09"}:${e.target.value}`
+                  )
+                }
+                className="flex-1 rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
+                required
+              >
+                {MINUTE_OPTIONS.map((m) => (
+                  <option key={m} value={m}>
+                    {m}분
+                  </option>
+                ))}
+              </select>
+            </div>
           </label>
         )}
       </div>

@@ -187,6 +187,7 @@ export function ScheduleForm({
             시간
             <input
               type="time"
+              step={1800}
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               className="rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"

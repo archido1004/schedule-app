@@ -18,7 +18,7 @@ export default async function SalesPage({
 
   const entries = await prisma.salesEntry.findMany({
     where: { date: { gte: start, lt: end } },
-    orderBy: { date: "desc" },
+    orderBy: { date: "asc" },
   });
 
   const totals = entries.reduce(

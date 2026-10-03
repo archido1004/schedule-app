@@ -66,7 +66,7 @@ export default async function SalesPage({
               {formatCurrency(totals.cash + totals.card)}
             </p>
           </div>
-          <div className="flex flex-col items-end gap-1 text-xs text-neutral-500 dark:text-neutral-400">
+          <div className="flex flex-col items-end gap-1 text-sm text-neutral-500 dark:text-neutral-400">
             <p className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-blue-500" /> 현금 {formatCurrency(totals.cash)}
             </p>

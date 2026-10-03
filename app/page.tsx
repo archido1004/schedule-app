@@ -131,22 +131,30 @@ export default async function DashboardPage() {
       <h2 className="mt-8 text-lg font-bold text-neutral-900 dark:text-neutral-100">
         이번 달 매출
       </h2>
-      <section className="mt-3 grid grid-cols-2 gap-3">
+      <section className="mt-3 flex flex-col gap-3">
         <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-          <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400 dark:text-neutral-500">
-            <span className="h-2 w-2 rounded-full bg-blue-500" /> 현금
-          </p>
-          <p className="mt-1 text-xl font-bold text-neutral-900 dark:text-neutral-100">
-            {formatCurrency(totals.cash)}
+          <p className="text-xs font-medium text-neutral-400 dark:text-neutral-500">합계</p>
+          <p className="mt-1 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            {formatCurrency(totals.cash + totals.card)}
           </p>
         </div>
-        <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-          <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400 dark:text-neutral-500">
-            <span className="h-2 w-2 rounded-full bg-green-500" /> 카드
-          </p>
-          <p className="mt-1 text-xl font-bold text-neutral-900 dark:text-neutral-100">
-            {formatCurrency(totals.card)}
-          </p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+            <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400 dark:text-neutral-500">
+              <span className="h-2 w-2 rounded-full bg-blue-500" /> 현금
+            </p>
+            <p className="mt-1 text-xl font-bold text-neutral-900 dark:text-neutral-100">
+              {formatCurrency(totals.cash)}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+            <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-400 dark:text-neutral-500">
+              <span className="h-2 w-2 rounded-full bg-green-500" /> 카드
+            </p>
+            <p className="mt-1 text-xl font-bold text-neutral-900 dark:text-neutral-100">
+              {formatCurrency(totals.card)}
+            </p>
+          </div>
         </div>
       </section>
       <Link

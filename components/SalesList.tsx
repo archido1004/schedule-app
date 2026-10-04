@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/lib/format";
 
 type SalesEntry = {
@@ -14,14 +13,6 @@ type SalesEntry = {
 };
 
 export function SalesList({ entries }: { entries: SalesEntry[] }) {
-  const router = useRouter();
-
-  async function handleDelete(id: string) {
-    if (!confirm("이 매출 내역을 삭제할까요?")) return;
-    await fetch(`/api/sales/${id}`, { method: "DELETE" });
-    router.refresh();
-  }
-
   if (entries.length === 0) {
     return (
       <p className="rounded-2xl border border-neutral-200 bg-white p-4 text-sm text-neutral-400 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-500">
@@ -59,15 +50,6 @@ export function SalesList({ entries }: { entries: SalesEntry[] }) {
                 {entry.date} {entry.memo ? `· ${entry.memo}` : ""}
               </p>
             </div>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                handleDelete(entry.id);
-              }}
-              className="shrink-0 text-xs text-red-500 dark:text-red-400"
-            >
-              삭제
-            </button>
             {entry.scheduleId && (
               <span className="shrink-0 text-neutral-300 dark:text-neutral-600">›</span>
             )}

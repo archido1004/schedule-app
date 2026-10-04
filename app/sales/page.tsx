@@ -16,10 +16,20 @@ export default async function SalesPage({
   const end = new Date(start);
   end.setUTCMonth(end.getUTCMonth() + 1);
 
-  const entries = await prisma.salesEntry.findMany({
-    where: { date: { gte: start, lt: end } },
-    orderBy: { date: "asc" },
-  });
+  const yearStart = dateKeyToUTCDate(`${monthKey.slice(0, 4)}-01-01`);
+  const yearEnd = dateKeyToUTCDate(`${Number(monthKey.slice(0, 4)) + 1}-01-01`);
+
+  const [entries, yearAgg] = await Promise.all([
+    prisma.salesEntry.findMany({
+      where: { date: { gte: start, lt: end } },
+      orderBy: { date: "asc" },
+    }),
+    prisma.salesEntry.aggregate({
+      _sum: { amount: true },
+      where: { date: { gte: yearStart, lt: yearEnd } },
+    }),
+  ]);
+  const yearTotal = yearAgg._sum.amount ?? 0;
 
   const totals = entries.reduce(
     (acc, e) => {
@@ -75,6 +85,11 @@ export default async function SalesPage({
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="mt-3 flex items-center justify-between rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+        <p className="text-xs font-medium text-neutral-400 dark:text-neutral-500">{monthKey.slice(0, 4)}년 연매출</p>
+        <p className="text-lg font-bold text-neutral-900 dark:text-neutral-100">{formatCurrency(yearTotal)}</p>
       </section>
 
       <p className="mt-4 text-xs text-neutral-400 dark:text-neutral-500">

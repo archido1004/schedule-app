@@ -43,6 +43,9 @@ export default async function SalesPage({
   const [year, mon] = monthKey.split("-").map(Number);
   const prevMonth = new Date(Date.UTC(year, mon - 2, 1)).toISOString().slice(0, 7);
   const nextMonth = new Date(Date.UTC(year, mon, 1)).toISOString().slice(0, 7);
+  const monthSuffix = String(mon).padStart(2, "0");
+  const prevYearMonth = `${year - 1}-${monthSuffix}`;
+  const nextYearMonth = `${year + 1}-${monthSuffix}`;
 
   return (
     <main className="mx-auto max-w-md p-4 pt-6">
@@ -87,9 +90,25 @@ export default async function SalesPage({
         </div>
       </section>
 
-      <section className="mt-3 flex items-center justify-between rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-        <p className="text-xs font-medium text-neutral-400 dark:text-neutral-500">{monthKey.slice(0, 4)}년 연매출</p>
-        <p className="text-lg font-bold text-neutral-900 dark:text-neutral-100">{formatCurrency(yearTotal)}</p>
+      <section className="mt-3 flex items-center justify-between gap-2 rounded-2xl border border-neutral-200 bg-white p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+        <Link
+          href={`/sales?month=${prevYearMonth}`}
+          aria-label="전년도 매출"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-700 shadow-sm transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+        >
+          <ChevronLeft size={18} strokeWidth={2.5} />
+        </Link>
+        <div className="flex flex-col items-center">
+          <p className="text-xs font-medium text-neutral-400 dark:text-neutral-500">{monthKey.slice(0, 4)}년 연매출</p>
+          <p className="text-lg font-bold text-neutral-900 dark:text-neutral-100">{formatCurrency(yearTotal)}</p>
+        </div>
+        <Link
+          href={`/sales?month=${nextYearMonth}`}
+          aria-label="다음해 매출"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-700 shadow-sm transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+        >
+          <ChevronRight size={18} strokeWidth={2.5} />
+        </Link>
       </section>
 
       <p className="mt-4 text-xs text-neutral-400 dark:text-neutral-500">

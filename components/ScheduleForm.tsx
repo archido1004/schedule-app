@@ -267,13 +267,14 @@ export function ScheduleForm({
         </p>
         <div className="flex gap-2">
           <input
-            type="number"
+            type="text"
             inputMode="numeric"
             placeholder="금액"
-            value={salesAmount}
-            onChange={(e) => setSalesAmount(e.target.value)}
+            value={salesAmount ? Number(salesAmount).toLocaleString("ko-KR") : ""}
+            onChange={(e) =>
+              setSalesAmount(e.target.value.replace(/[^0-9]/g, ""))
+            }
             className="flex-1 rounded-lg border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
-            min={0}
           />
           <button
             type="button"
